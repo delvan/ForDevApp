@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 import '../entities/entities.dart';
 
 abstract class Authentication {
@@ -11,4 +9,6 @@ class AuthenticationParms {
   final String secret;
 
   AuthenticationParms({required this.email, required this.secret});
+
+  Map toJson() => {'email': email, 'password': secret};
 }

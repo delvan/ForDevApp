@@ -7,23 +7,8 @@ import 'package:mockito/mockito.dart';
 import 'package:faker/faker.dart';
 
 import 'package:fordev_app/domain/usecases/authentication.dart';
-
-class RemoteAuthetication {
-  final HttpClient httpClient;
-  final String url;
-
-  RemoteAuthetication({required this.httpClient, required this.url});
-
-  Future<void>? auth(AuthenticationParms parms) async {
-    final body = {'email': parms.email, 'password': parms.secret};
-    await httpClient.request(url: url, method: 'post', body: body);
-  }
-}
-
-abstract class HttpClient {
-  Future<void>? request(
-      {required String url, required String method, Map body});
-}
+import 'package:fordev_app/data/http/http.dart';
+import 'package:fordev_app/data/usecases/usecases.dart';
 
 class HttpClientSpy extends Mock implements HttpClient {}
 
