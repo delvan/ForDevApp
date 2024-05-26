@@ -1,5 +1,6 @@
 // ignore: depend_on_referenced_packages
 
+// ignore: depend_on_referenced_packages
 import 'package:test/test.dart';
 // ignore: depend_on_referenced_packages
 import 'package:mockito/mockito.dart';
