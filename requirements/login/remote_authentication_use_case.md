@@ -7,7 +7,7 @@
 4. Sistema entrega os dados da conta do usúario
 
 ## Exceção - URL inválida
-1. Sistema retorna uma mensagem de error inesperado
+1. ✅Sistema retorna uma mensagem de error inesperado
 
 ## Exceção - Dados inválidos
 1. ✅Sistema retorna uma mensagem de erro inesperado
