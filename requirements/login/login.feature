@@ -1,7 +1,7 @@
 Feature: Login
 Como um cliente
 Quero poder acessar minha conta e me manter logado
-Paea que eu possa ver e responder enquetes de forma rápida
+Para que eu possa ver e responder enquetes de forma rápida
 
 
 Cenário: Credenciais Válidas

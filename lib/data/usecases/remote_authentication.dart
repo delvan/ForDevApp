@@ -8,15 +8,16 @@ import '../../domain/usecases/usecases.dart';
 
 import '../http/http.dart';
 
-class RemoteAuthetication implements Authentication {
+class RemoteAuthentication implements Authentication {
   final HttpClient httpClient;
   final String url;
 
-  RemoteAuthetication({required this.httpClient, required this.url});
+  RemoteAuthentication({required this.httpClient, required this.url});
 
   @override
-  Future<AccountEntity> auth(AuthenticationParms params) async {
-    final body = RemoteAuthenticationParms.fromDomain(params).toJson();
+  Future<AccountEntity> auth(AuthenticationParams params) async {
+    final body = RemoteAuthenticationParams
+                      .fromDomain(params).toJson();
 
     try {
       final httpResponse =
@@ -30,14 +31,14 @@ class RemoteAuthetication implements Authentication {
   }
 }
 
-class RemoteAuthenticationParms {
+class RemoteAuthenticationParams {
   final String email;
   final String password;
 
-  RemoteAuthenticationParms({required this.email, required this.password});
+  RemoteAuthenticationParams({required this.email, required this.password});
 
-  factory RemoteAuthenticationParms.fromDomain(AuthenticationParms params) =>
-      RemoteAuthenticationParms(email: params.email, password: params.secret);
+  factory RemoteAuthenticationParams.fromDomain(AuthenticationParams params) =>
+      RemoteAuthenticationParams(email: params.email, password: params.secret);
 
   Map toJson() => {'email': email, 'password': password};
 }

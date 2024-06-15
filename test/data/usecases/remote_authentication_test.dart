@@ -1,4 +1,3 @@
-import 'package:fordev_app/data/http/http_error.dart';
 import 'package:test/test.dart';
 // ignore: depend_on_referenced_packages
 import 'package:mockito/mockito.dart';
@@ -12,18 +11,19 @@ import 'package:fordev_app/data/usecases/usecases.dart';
 // ignore: depend_on_referenced_packages
 import 'package:fordev_app/domain/helpers/helpers.dart';
 
+//Mock de HttpClient
 class HttpClientSpy extends Mock implements HttpClient {}
 
 void main() {
-  RemoteAuthetication? sut;
-  HttpClientSpy? httpClient;
+  RemoteAuthentication? sut;
+  HttpClientSpy? httpClientSpy;
   String? url;
-  AuthenticationParms? params;
+  AuthenticationParams? params;
 
   Map mockValidData() =>
       {'accessToken': faker.guid.guid(), 'name': faker.person.name()};
 
-  PostExpectation mockRequest() => when(httpClient?.request(
+  PostExpectation mockRequest() => when(httpClientSpy?.request(
       url: anyNamed('url'),
       method: anyNamed('method'),
       body: anyNamed('body')));
@@ -37,10 +37,10 @@ void main() {
   }
 
   setUp(() {
-    httpClient = HttpClientSpy();
+    httpClientSpy = HttpClientSpy();
     url = faker.internet.httpUrl();
-    sut = RemoteAuthetication(httpClient: httpClient!, url: url!);
-    params = AuthenticationParms(
+    sut = RemoteAuthentication(httpClient: httpClientSpy!, url: url!);
+    params = AuthenticationParams(
         email: faker.internet.email(), secret: faker.internet.password());
     mockHttpData(mockValidData());
   });
@@ -48,7 +48,7 @@ void main() {
   test('Should call HttpClient with correct values', () async {
     await sut!.auth(params!);
 
-    verify(httpClient!.request(
+    verify(httpClientSpy!.request(
         url: url!,
         method: 'post',
         body: {'email': params!.email, 'password': params!.secret}));
@@ -91,7 +91,7 @@ void main() {
 
     final account = await sut!.auth(params!);
 
-    expect(account!.token, validData['accessToken']);
+    expect(account.token, validData['accessToken']);
   });
 
   test(
