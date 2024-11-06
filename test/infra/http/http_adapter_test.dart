@@ -1,34 +1,54 @@
-// ignore: depend_on_referenced_packages
 
-import 'package:test/test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:faker/faker.dart';
 import 'package:fordev_app/data/http/http.dart';
+import 'package:mockito/mockito.dart';
+import 'package:test/test.dart';
+
 
 class HttpAdapter {
-  final HttpClient httpClient;
-  final String url;
-  final String method;
 
-  HttpAdapter({required this.httpClient, required this.url, required this.method});
+  final HttpClient client;
 
-  Future<void> auth() async {
-    await httpClient.request(url: url, method: method);
+  HttpAdapter(this.client);
+
+  Future<void>? request(
+      { required String? url,
+        required String? method
+      }) async{
+    final headers = {
+                'content-type': 'application/json',
+                'accept': 'application/json'
+              };
+    await client.post(url!, headers: headers );
+
   }
+
 }
 
-class ClientSpy extends Mock implements HttpClient {}
+class ClientSpy extends Mock implements HttpClient{}
 
-void main() {
-  group("post", () {
-    test("Should call post with correct values", () async {
-      final url = faker.internet.httpUrl();
+void main(){
+  group('post', () {
+    test('Should call post with correct values', () async {
       final client = ClientSpy();
-      final sut = HttpAdapter(httpClient: client, url: url, method: "post");
+      final sut = HttpAdapter(client);
+      final url = faker.internet.httpsUrl();
 
-      await sut.auth();
+      await sut.request(url: url, method: 'post');
 
-      verify(client.request(url: url, method: "post"));
+      verify(client.post(url,
+          headers:
+              {
+                'content-type': 'application/json',
+                'accept': 'application/json'
+              }
+
+              ));
+
     });
+
   });
 }
+
+
+
