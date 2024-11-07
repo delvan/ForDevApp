@@ -28,15 +28,22 @@ class HttpAdapter {
 class ClientSpy extends Mock implements HttpClient{}
 
 void main(){
+  HttpAdapter? sut;
+  ClientSpy? client;
+  String? url;
+
+  setUp((){
+    client = ClientSpy();
+    sut = HttpAdapter(client!);
+    url = faker.internet.httpsUrl();
+  });
+
+
   group('post', () {
     test('Should call post with correct values', () async {
-      final client = ClientSpy();
-      final sut = HttpAdapter(client);
-      final url = faker.internet.httpsUrl();
+      await sut!.request(url: url, method: 'post');
 
-      await sut.request(url: url, method: 'post');
-
-      verify(client.post(url,
+      verify(client!.post(url!,
           headers:
               {
                 'content-type': 'application/json',
